@@ -1,25 +1,26 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import { LoggedLayout } from './layouts/LoggedLayout';
+import { LoginScreen } from './Pages/loginScreen/loginScreen';
 
 function App() {
+
+  const [activeUser, setActiveUser] = useState(null)
+
+
+  useEffect(() => {
+    setActiveUser(true);
+  }, [])
+
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    ( !activeUser ? <LoginScreen /> : <LoggedLayout />)
   );
 }
 
 export default App;
+
+
+
