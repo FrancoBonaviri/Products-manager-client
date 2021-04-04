@@ -1,20 +1,21 @@
 import React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom';
 import LeftMenu from '../components/menu/LeftMenu';
+import { Routes } from '../components/router/routes';
+import { Topbar } from '../components/topbar/Topbar';
 
 
 export const LoggedLayout = () => {
+
+
+
+
     return (
         <Router>
             <div id="main-wrapper">
 
                 <div>
-                    <header className="topbar">
-                        <nav className="navbar top-navbar navbar-expand-md navbar-light">
-
-                            <h2>TOPBAR</h2>
-                        </nav>
-                    </header>
+                   <Topbar />
                 </div>
 
 
@@ -23,14 +24,12 @@ export const LoggedLayout = () => {
                 </div>
 
                 <div className="page-wrapper" >
-                    <div className="container-fluid r-aside">
+                    <div className="container-fluid">
                         
-                        <div className="row">
+                        <div className="row m-2">
+                            <Routes/>
                         </div>
-
-                        <div className="row p-5">
-                            <h2>Container</h2>
-                        </div>
+                    
                     </div>
                 </div>
             </div>

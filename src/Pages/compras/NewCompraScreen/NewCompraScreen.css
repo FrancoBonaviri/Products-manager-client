@@ -1,0 +1,37 @@
+.number-imput-place{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 100%;
+    min-height: 100px;
+}
+
+
+
+.number-imput-place label {
+    font-size: 5rem;
+    font-weight: bold;
+}
+
+
+.number-imput-place label:hover {
+    cursor: pointer;
+}
+
+
+.number-imput-place input {
+    height: 0;
+    width: 0;
+    position: absolute;
+    opacity: 0;
+    /* display: none; */
+}
+
+.has-danger {
+    color: red;
+}
+
+
+.font-bold {
+    font-weight: bold !important; 
+}

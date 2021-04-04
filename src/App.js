@@ -16,7 +16,7 @@ function App() {
 
 
   return (
-    ( !activeUser ? <LoginScreen /> : <LoggedLayout />)
+    ( !activeUser ? <LoginScreen /> : <LoggedLayout /> )
   );
 }
 

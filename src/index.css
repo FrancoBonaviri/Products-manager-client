@@ -1,0 +1,14 @@
+.no-scrollbar::-webkit-scrollbar {
+    display: none !important;
+}
+
+body::-webkit-scrollbar{
+    display: none !important;
+}
+
+
+.page-wrapper{
+    padding-bottom: 0 !important;
+    /* overflow: hidden; */
+    /* width: 100% !important; */
+}

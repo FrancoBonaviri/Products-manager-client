@@ -18,13 +18,20 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
      <!-- Bootstrap Core CSS -->
      <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+     <link href="assets/plugins/dropzone-master/dist/dropzone.css" rel="stylesheet" type="text/css" />
      <link href="assets/plugins/perfect-scrollbar/css/perfect-scrollbar.min.css" rel="stylesheet">
       <!-- Custom CSS -->
       <link href="css/style.css" rel="stylesheet">
       <!-- Dashboard 1 Page CSS -->
       <link href="css/pages/dashboard1.css" rel="stylesheet">
+      <link href="css/pages/user-card.css" rel="stylesheet">
+      <link href="assets/plugins/Magnific-Popup-master/dist/magnific-popup.css" rel="stylesheet">
+
       <!-- You can change the theme colors from here -->
       <link href="css/colors/default-dark.css" id="theme" rel="stylesheet">
+
+      <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" /> -->
      <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -35,9 +42,17 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+
   </head>
-  <body>
+  <body class="fix-header fix-sidebar card-no-border">
     <noscript>You need to enable JavaScript to run this app.</noscript>
+
+    <div class="preloader">
+      <div class="loader">
+          <div class="loader__figure"></div>
+          <p class="loader__label">Products Manager</p>
+      </div>
+   </div>
     <div id="root"></div>
     <!--
       This HTML file is a template.
@@ -61,11 +76,16 @@
       <!--Menu sidebar -->
       <script src="js/sidebarmenu.js"></script>
       <!--Custom JavaScript -->
-      <script src="js/custom.min.js"></script>
       <!-- ============================================================== -->
+      <script src="assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
+      <script src="assets/plugins/sparkline/jquery.sparkline.min.js"></script>
+      <script src="js/custom.min.js"></script>
+      <script src="assets/plugins/dropzone-master/dist/dropzone.js"></script>
+      
       <script src="https://kit.fontawesome.com/554f97cf83.js" crossorigin="anonymous"></script>
 
-      <script src="assets/plugins/sparkline/jquery.sparkline.min.js"></script>
+      <script src="assets/plugins/Magnific-Popup-master/dist/jquery.magnific-popup.min.js"></script>
+      <script src="assets/plugins/Magnific-Popup-master/dist/jquery.magnific-popup-init.js"></script>
       <script src="assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
 
 

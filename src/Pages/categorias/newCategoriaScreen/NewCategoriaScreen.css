@@ -1,0 +1,23 @@
+.banner-image {
+    background-Position: center;
+    background-Size: cover;
+    background-Repeat: no-repeat;
+    height: 300px;
+    width: 300px;
+    margin-Left: auto;
+    margin-Right: auto;
+    display: flex;
+    align-Items: center;
+    justify-Content: center;
+}
+
+.banner-image div {
+    font-size: 5rem;
+    cursor: pointer;
+    opacity: .5;
+}
+
+
+.banner-image div:hover {
+    opacity: .8;
+}

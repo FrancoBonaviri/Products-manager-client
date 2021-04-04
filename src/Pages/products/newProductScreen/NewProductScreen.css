@@ -1,0 +1,25 @@
+.image {
+    background-Position: center;
+    background-Size: cover;
+    background-Repeat: no-repeat;
+    height: 60px;
+    width: 60px;
+    margin-Left: auto;
+    margin-Right: auto;
+    display: flex;
+    align-Items: center;
+    justify-Content: center;
+}
+
+
+
+.image div{
+    font-size: 1rem;
+    cursor: pointer;
+    opacity: .5;
+}
+
+.image div:hover {
+    color: red;
+    opacity: .8;
+}
