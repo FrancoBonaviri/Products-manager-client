@@ -25,3 +25,14 @@ export const getAllPendientes = async( page ) => {
         throw error;
     }
 } 
+
+export const confirm = async( compraCode ) => {
+    try {
+
+        
+
+
+    } catch (error) {
+        throw error;
+    }
+}

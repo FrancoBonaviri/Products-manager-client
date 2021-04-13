@@ -1,4 +1,4 @@
-import { addImageToProduct, createProduct, getCantidadProductos, getProducts, getProductsbyCategoria } from "./ApiService";
+import { addImageToProduct, createProduct, getCantidadProductos, getProductByCode, getProducts, getProductsbyCategoria } from "./ApiService";
 
 export const getByCategoria = async (categoriaCode) => {
 
@@ -82,3 +82,17 @@ export const getCantidad = async() => {
         throw error;
     }
 }
+
+export const getByCodigo = async( code ) => {
+    try {
+        
+        const res = await getProductByCode( code );
+
+        console.log(res);
+        return res.data;
+
+
+    } catch (error) {
+        throw error
+    }
+};

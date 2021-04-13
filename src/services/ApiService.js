@@ -179,6 +179,21 @@ export const getProducts = ( page ) => {
     });
 }
 
+export const getProductByCode = (code) => {
+    return new Promise( (resolve, reject) => {
+        
+        api.get('/producto/' + code, {} )
+        .then( res => {
+            if( res.data.ok ){ resolve(res)}
+            else { reject(res.data.message)}
+        })
+        .catch( err => {
+            reject( err );
+        });
+
+    });
+}
+
 export const createCompra = ( productoCode, cantidad ) => {
     return new Promise( (resolve, reject ) => {
 
@@ -204,7 +219,23 @@ export const createCompra = ( productoCode, cantidad ) => {
 export const getAllComprasPendientes = (page) => {
     return new Promise( (resolve, reject) => {
 
-        api.get('/compras/getall/pendientes?page=' + page, {})
+        api.get('/compra/getall/pendientes?page=' + page, {})
+        .then( res => {
+            if( res.data.ok ){ resolve(res)}
+            else { reject(res.data.err)}
+        })
+        .catch( err => {
+            reject( err );
+        });
+
+
+    });
+}
+
+export const confirmCompra = ( compraCode ) => {
+    return new Promise( (resolve, reject) => {
+
+        api.put('/compra/finalizar/' + compraCode , {})
         .then( res => {
             if( res.data.ok ){ resolve(res)}
             else { reject(res.data.err)}

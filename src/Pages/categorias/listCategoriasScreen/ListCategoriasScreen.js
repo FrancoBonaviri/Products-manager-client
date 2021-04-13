@@ -3,6 +3,7 @@ import Pagination from '@material-ui/lab/Pagination';
 import { getAllcategorias } from '../../../services/categoriaService';
 import { getCantidadCategorias } from '../../../services/ApiService';
 import {getCantidadByCategoria} from '../../../services/productService'
+import { EmptyState } from '../../../components/empty/EmptyState';
 
 
 export const ListCategoriasScreen = () => {
@@ -41,25 +42,32 @@ export const ListCategoriasScreen = () => {
             <div className="col-12 " >
                 <div className="card">
                     <div className="card-body">
-                        <h4 className="card-title">Categorias</h4>
-                        <div className="table-responsive" >
-                            <table className="table color-table primary-table">
-                                <thead >
-                                    <tr>
-                                        <th>Codigo</th>
-                                        <th>Nombre</th>
-                                        <th>Banner</th>
-                                        <th>Productos</th>
-                                        <th>Detalle</th>
-                                    </tr>
-                                </thead>
-                                <tbody >
-                                    { categorias.map( item => (
-                                        <ListCategoriaItem categoria={ item } key={ item.codigo }/>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
+                    {
+                        categorias.length > 0 ?
+                        <>
+                            <h4 className="card-title">Categorias</h4>
+                            <div className="table-responsive" >
+                                <table className="table color-table primary-table">
+                                    <thead >
+                                        <tr>
+                                            <th>Codigo</th>
+                                            <th>Nombre</th>
+                                            <th>Banner</th>
+                                            <th>Productos</th>
+                                            <th>Detalle</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody >
+                                        { categorias.map( item => (
+                                            <ListCategoriaItem categoria={ item } key={ item.codigo }/>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </>
+                        : <EmptyState link='/new-categoria'  itemToAdd='categoria'/>
+                    }
+
                     </div>
                 </div>
             </div>

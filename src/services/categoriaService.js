@@ -9,7 +9,7 @@ export const createCategoria = async(nombre, descripcion, banner) => {
         const res = await insertCategoria(nombre, descripcion)
     
         // Si el banner existe, se lo asigno a la categoria ->
-        if( banner ) {
+        if( banner.lenght > 0 ) {
             await setBannerCategoria(banner, res.data.categoria.codigo);
         }
     } catch (error) {

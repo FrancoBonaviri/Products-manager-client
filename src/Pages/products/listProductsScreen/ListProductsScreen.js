@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Pagination from '@material-ui/lab/Pagination';
 import { getCantidad, get } from '../../../services/productService';
-
+import { EmptyState } from '../../../components/empty/EmptyState';
 
 export const ListProductsScreen = () => {
     
@@ -35,40 +35,53 @@ export const ListProductsScreen = () => {
     
     return (
         <>
-        <div className="row no-scrollbar" style={{ width : '100%', maxHeight: '79vh', overflowY : 'scroll'  }} >
-            <div className="col-12 " >
-                <div className="card">
-                    <div className="card-body">
-                        <h4 className="card-title">Productos</h4>
-                        <div className="table-responsive" >
-                            <table className="table color-table primary-table">
-                                <thead >
-                                    <tr>
-                                        <th>Codigo</th>
-                                        <th>Nombre</th>
-                                        <th>Categoria</th>
-                                        <th>Precio</th>
-                                        <th>Costo</th>
-                                        <th>Stock</th>
-                                        <th>Detalle</th>
-                                    </tr>
-                                </thead>
-                                <tbody >
-                                    {
-                                        products.map( (product, i) => (
-                                            <ListProductItem key={ i } product={ product }/>
-                                        ))
-                                    }
-                                </tbody>
-                            </table>
+            <div className="row no-scrollbar" style={{ width : '100%', maxHeight: '79vh', overflowY : 'scroll'  }} >
+                <div className="col-12 " >
+                    <div className="card">
+                        <div className="card-body">
+
+                        {
+                            products.length > 0 ?
+                            <>
+                            <h4 className="card-title">Productos</h4>
+                            <div className="table-responsive" >
+                                <table className="table color-table primary-table">
+                                    <thead >
+                                        <tr>
+                                            <th>Codigo</th>
+                                            <th>Nombre</th>
+                                            <th>Categoria</th>
+                                            <th>Precio</th>
+                                            <th>Costo</th>
+                                            <th>Stock</th>
+                                            <th>Detalle</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody >
+                                        {
+                                            products.map( (product, i) => (
+                                                <ListProductItem key={ i } product={ product }/>
+                                            ))
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            </>
+                            :
+                            <EmptyState itemToAdd='producto' link='/new-product'/>
+
+                        }
+
+
                         </div>
                     </div>
                 </div>
+                
             </div>
 
 
+
             
-        </div>
 
         {
             pagesCant > 1 &&
@@ -115,7 +128,7 @@ const ListProductItem = ({ product }) => {
             <td>{ product.categoria || "-" }  <i onClick={ () => handleCopyCode( product.categoria ) } style={{ cursor: 'pointer'}} className="fas fa-copy ml-1"/></td>
             <td>${ product.precio || "-" }</td>
             <td>${ product.costo || "-" }</td>
-            <td>${ product.stock || "-" }</td>
+            <td>{ product.stock || "-" }</td>
             <td><span style={{ cursor: 'pointer' }} onClick={ handleDetailClick } className="badge bg-info">Ir al detalle</span></td>
         </tr>
     );

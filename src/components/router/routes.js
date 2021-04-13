@@ -2,6 +2,7 @@ import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import { ListCategoriasScreen } from '../../Pages/categorias/listCategoriasScreen/ListCategoriasScreen'
 import { NewCategoriaScreen } from '../../Pages/categorias/newCategoriaScreen/NewCategoriaScreen'
+import { ComprasPendientes } from '../../Pages/compras/ListComprasPendientes/ComprasPendientes'
 import { NewCompraScreen } from '../../Pages/compras/NewCompraScreen/NewCompraScreen'
 import { ListProductsScreen } from '../../Pages/products/listProductsScreen/ListProductsScreen'
 import { NewProductScreen } from '../../Pages/products/newProductScreen/NewProductScreen'
@@ -38,7 +39,7 @@ export const Routes = () => {
             </Route>
 
             <Route path="/list-compras-pendientes" exact >
-                <h1>Compras Pendientes</h1>
+                <ComprasPendientes />
             </Route>
 
             <Route path="/compras-historicas" exact >
