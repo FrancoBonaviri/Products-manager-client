@@ -1,6 +1,17 @@
-
+.MuiAlert-standardInfo {
+    background-color: rgb(200, 220, 253) !important;
+}
 
 
 .MuiAlert-standardSuccess {
     background-color: rgb(100,200,100) !important;
+}
+
+
+.MuiAlert-standardError {
+    background-color: rgb(253, 200, 234) !important;
+}
+
+.MuiAlert-root {
+    line-height: 20px !important;
 }

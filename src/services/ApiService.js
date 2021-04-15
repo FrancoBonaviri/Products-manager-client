@@ -247,3 +247,19 @@ export const confirmCompra = ( compraCode ) => {
 
     });
 }
+
+export const getAllComprashistoricas = ( page ) => {
+    return new Promise( (resolve, reject) => {
+
+        api.get('compra/getall/historicas?page=' + page, {})
+        .then( res => {
+            if( res.data.ok ){ resolve(res)}
+            else { reject(res.data.err)}
+        })
+        .catch( err => {
+            reject( err );
+        });
+
+
+    });
+}

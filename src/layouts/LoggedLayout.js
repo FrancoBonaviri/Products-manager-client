@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom';
 import LeftMenu from '../components/menu/LeftMenu';
 import { Routes } from '../components/router/routes';
@@ -26,6 +26,16 @@ export const LoggedLayout = () => {
     const { AlertType, AlertText, AlertOpen } = useSelector(state => state.ui)
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if( AlertOpen ) {
+
+            setTimeout( () => {
+                dispatch( closeAlert() );
+            }, 5000 );
+        
+        }
+    }, [ AlertOpen ])
 
 
 

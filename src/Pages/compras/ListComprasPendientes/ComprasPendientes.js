@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { getAllPendientes } from '../../../services/compraService';
+import { confirm, getAllPendientes } from '../../../services/compraService';
 import { EmptyState } from '../../../components/empty/EmptyState'
 import moment from 'moment'
 import Pagination from '@material-ui/lab/Pagination';
@@ -130,7 +130,18 @@ const ListCompraPendienteItem = ({ compra }) => {
     }
 
     const onConfirmCompra = () => {
-        dispatch( openAlert('success', 'La compra fue confirmada completamente, podras verla desde el listado de compras historicas'));
+        confirm( compra.codigo )
+        .then( res => {
+            console.log(res);
+            dispatch( openAlert('success', 'La compra fue confirmada completamente, podras verla desde el listado de compras historicas'));
+        })
+        .catch( err => {
+            console.log(err);
+            dispatch( openAlert( 'error', err.toString() ) );
+        })
+        .finally( () => {
+            dispatch( closeModal() );
+        });
     }
 
 
