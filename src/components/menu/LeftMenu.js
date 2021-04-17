@@ -38,6 +38,8 @@ const LeftMenu = (props) => {
                 return ( activeMenu === '/profile' || activeMenu === '/settings') 
             case 'Categorias': 
                 return ( activeMenu === '/new-categoria' || activeMenu === '/list-categoria' )
+            case 'Solicitante': 
+                return ( activeMenu === '/new-solicitante' || activeMenu === '/list-solicitante' )
             default:
                 return false;
         }
@@ -97,6 +99,13 @@ const LeftMenu = (props) => {
                                 <li><Link  className={activeMenu === '/ventas-pendientes' ? 'active' : ''} to="/ventas-pendientes">Ventas pendientes</Link></li>
                                 <li><Link  className={activeMenu === '/solicitudes-venta' ? 'active' : ''} to="/solicitudes-venta">Solicitudes</Link></li>
                                 <li><Link  className={activeMenu === '/ventas-historicas' ? 'active' : ''} to="/ventas-historicas">Ventas Historicas</Link></li>
+                            </ul>
+                        </li>
+                        <li className={ isInSubMenu('Solicitante') ? 'active' : '' }> 
+                            <a href="#" className="has-arrow waves-effect waves-dark" aria-expanded="false"><i className="fas fa-user"></i><span className="hide-menu"> Solicitantes</span></a>
+                            <ul aria-expanded="false" className="collapse">
+                                <li><Link  className={activeMenu === '/new-solicitante' ? 'active' : ''} to="/new-solicitante">Nuevo solicitante</Link></li>
+                                <li><Link  className={activeMenu === '/list-solicitante' ? 'active' : ''} to="/list-solicitante">Listado de solicitantes</Link></li>
                             </ul>
                         </li>
                     </ul>

@@ -263,3 +263,35 @@ export const getAllComprashistoricas = ( page ) => {
 
     });
 }
+
+export const createSolicitante = ( solicitante ) => {
+    return new Promise( (resolve, reject) => {
+
+        api.post('/solicitante', solicitante, {})
+        .then( res => {
+            if( res.data.ok ){ resolve(res)}
+            else { reject(res.data.err)}
+        })
+        .catch( err => {
+            reject( err );
+        });
+
+
+    });  
+}
+
+export const getAllSolicitantes = ( page ) => {
+    return new Promise( (resolve, reject) => {
+
+        api.get('/solicitante?page=' + page, {})
+        .then( res => {
+            if( res.data.ok ){ resolve(res)}
+            else { reject(res.data.err)}
+        })
+        .catch( err => {
+            reject( err );
+        });
+
+
+    });
+}

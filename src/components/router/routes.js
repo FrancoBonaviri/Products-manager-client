@@ -7,6 +7,8 @@ import { ComprasPendientes } from '../../Pages/compras/ListComprasPendientes/Com
 import { NewCompraScreen } from '../../Pages/compras/NewCompraScreen/NewCompraScreen'
 import { ListProductsScreen } from '../../Pages/products/listProductsScreen/ListProductsScreen'
 import { NewProductScreen } from '../../Pages/products/newProductScreen/NewProductScreen'
+import { ListSolicitanteScreen } from '../../Pages/solicitantes/ListSolicitanteScreen/ListSolicitanteScreen'
+import { NewSolictanteScreen } from '../../Pages/solicitantes/NewSolicitanteScreen/NewSolictanteScreen'
 
 
 
@@ -45,6 +47,14 @@ export const Routes = () => {
 
             <Route path="/compras-historicas" exact >
                 <ListComprasHistoricas />
+            </Route>
+
+            <Route path="/new-solicitante" exact >
+                <NewSolictanteScreen />
+            </Route>
+
+            <Route path="/list-solicitante" exact >
+                <ListSolicitanteScreen />
             </Route>
 
             <Route path="/new-venta" exact >
