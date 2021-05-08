@@ -88,8 +88,7 @@ export const getByCodigo = async( code ) => {
         
         const res = await getProductByCode( code );
 
-        console.log(res);
-        return res.data;
+        return res.data.producto;
 
 
     } catch (error) {

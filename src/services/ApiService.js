@@ -81,7 +81,7 @@ export const getProductsbyCategoria = (categoriaCode) => {
         api.get('/producto/categoria/' + categoriaCode, {} )
         .then( res => {
             if( res.data.ok ){ resolve(res)}
-            else { reject(res.data.message)}
+            else { reject(res.data.err)}
         })
         .catch( err => {
             reject( err );
@@ -292,6 +292,21 @@ export const getAllSolicitantes = ( page ) => {
             reject( err );
         });
 
+
+    });
+}
+
+export const getSolicitanteByCode = ( code ) => {
+    return new Promise( (resolve, reject) => {
+
+        api.get('/solicitante/' + code, {})
+        .then( res => {
+            if( res.data.ok ){ resolve(res)}
+            else { reject(res.data.err)}
+        })
+        .catch( err => {
+            reject( err );
+        });
 
     });
 }

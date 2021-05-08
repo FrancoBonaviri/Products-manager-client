@@ -9,6 +9,7 @@ import { ListProductsScreen } from '../../Pages/products/listProductsScreen/List
 import { NewProductScreen } from '../../Pages/products/newProductScreen/NewProductScreen'
 import { ListSolicitanteScreen } from '../../Pages/solicitantes/ListSolicitanteScreen/ListSolicitanteScreen'
 import { NewSolictanteScreen } from '../../Pages/solicitantes/NewSolicitanteScreen/NewSolictanteScreen'
+import { NewVentaScreen } from '../../Pages/ventas/NewVentaScreen/NewVentaScreen'
 
 
 
@@ -58,7 +59,7 @@ export const Routes = () => {
             </Route>
 
             <Route path="/new-venta" exact >
-                <h1>Nueva Venta</h1>
+                <NewVentaScreen />
             </Route>
 
             <Route path="/ventas-pendientes" exact >

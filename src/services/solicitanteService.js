@@ -1,4 +1,4 @@
-import { createSolicitante, getAllSolicitantes } from "./ApiService"
+import { createSolicitante, getAllSolicitantes, getSolicitanteByCode } from "./ApiService"
 
 
 export const create = async ( nombre, apellido, email, codArea, telefono, codigoProvincia, codigoLocalidad, codigoPostal, calle, altura, piso ) => {
@@ -36,6 +36,19 @@ export const getAll = async( page ) => {
 
         return res.data;
         
+    } catch (error) {
+        throw error
+    }
+}
+
+export const getByCodigo = async ( code ) => {
+    try {
+        
+        const res = await getSolicitanteByCode( code );
+
+
+        return res.data;
+
     } catch (error) {
         throw error
     }
