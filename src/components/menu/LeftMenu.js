@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { Link, withRouter } from 'react-router-dom';
 
 import noAvatar from '../../assets/images/no-avatar.png'
+import firebase from '../../services/firebaseService'
+import 'firebase/auth';
 
-// import './LeftMenu.css'
+import './LeftMenu.css'
 
 
 const LeftMenu = (props) => {
     const { location } = props;
-
 
     const handlogout = () => {
         console.log('logout');
@@ -53,7 +54,7 @@ const LeftMenu = (props) => {
                         <li  className={ isInSubMenu('Profile') ? ' user-profile active' : 'user-profile' }>
                             <a href="#" className="has-arrow waves-effect waves-dark" aria-expanded="false">
                                 <img src={ noAvatar } alt="user" />
-                                <span className="hide-menu">Steave Jobs </span>
+                                <span className="hide-menu">{ firebase.auth().currentUser?.email } </span>
                             </a>
                             <ul aria-expanded="false" className="collapse">
                                 <li><Link  className={activeMenu === '/profile' ? 'active' : ''} to="/profile">My Profile </Link></li>

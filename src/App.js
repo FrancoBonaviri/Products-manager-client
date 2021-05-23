@@ -5,21 +5,32 @@ import { LoginScreen } from './Pages/loginScreen/loginScreen';
 import { Provider } from 'react-redux'
 import { store } from './store/store' 
 
+import firebase from './services/firebaseService';
+import 'firebase/auth';
+
+
 function App() {
 
-  const [activeUser, setActiveUser] = useState(null)
+  const [activeUser, setActiveUser] = useState()
+  const [isLogged, setIsLogged] = useState(true);
 
 
-  useEffect(() => {
-    setActiveUser(true);
-  }, [])
-
+  firebase.auth().onAuthStateChanged(currentUser => {
+  
+    if( currentUser ) {
+      setIsLogged( true );
+    } else {
+      setIsLogged( false );
+    }
+    
+    setActiveUser( currentUser );
+  });
 
 
 
   return (
     <Provider store={ store }>
-      { !activeUser ? <LoginScreen /> : <LoggedLayout /> }
+      { isLogged ? <LoggedLayout /> : <LoginScreen /> }
     </Provider>
   );
 }

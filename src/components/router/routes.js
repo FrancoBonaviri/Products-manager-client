@@ -9,11 +9,15 @@ import { ListProductsScreen } from '../../Pages/products/listProductsScreen/List
 import { NewProductScreen } from '../../Pages/products/newProductScreen/NewProductScreen'
 import { ListSolicitanteScreen } from '../../Pages/solicitantes/ListSolicitanteScreen/ListSolicitanteScreen'
 import { NewSolictanteScreen } from '../../Pages/solicitantes/NewSolicitanteScreen/NewSolictanteScreen'
+import { ListSolicitudesVentas } from '../../Pages/ventas/ListSolicitudesVentas/ListSolicitudesVentas'
+import { ListVentasHistoricas } from '../../Pages/ventas/ListVentasHistoricasScreen/ListVentasHistoricas'
+import { ListVentasPendientes } from '../../Pages/ventas/ListVentasPendientesScreen/ListVentasPendientes'
 import { NewVentaScreen } from '../../Pages/ventas/NewVentaScreen/NewVentaScreen'
 
 
 
 export const Routes = () => {
+
     
     return (
         <Switch>
@@ -63,15 +67,15 @@ export const Routes = () => {
             </Route>
 
             <Route path="/ventas-pendientes" exact >
-                <h1>Ventas Pendientes</h1>
+                <ListVentasPendientes />
             </Route>
 
             <Route path="/solicitudes-venta" exact >
-                <h1>Solicitudes Venta</h1>
+                <ListSolicitudesVentas />
             </Route>
 
             <Route path="/ventas-historicas" exact >
-                <h1>Ventas historicas</h1>
+                <ListVentasHistoricas />
             </Route>
             
             <Route path="/profile" exact >

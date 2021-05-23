@@ -310,3 +310,98 @@ export const getSolicitanteByCode = ( code ) => {
 
     });
 }
+
+export const crearVenta = ( venta ) => {
+    return new Promise( (resolve, reject) => {
+
+        api.post('/ventas/', { ...venta })
+        .then( res => {
+            if( res.data.ok ){ resolve(res)}
+            else { reject(res.data.err)}
+        })
+        .catch( err => {
+            reject( err );
+        });
+
+    });
+}
+
+export const getAllventas = ( page, estado ) => {
+    return new Promise( (resolve, reject) => {
+    
+        api.get('/ventas?page=' + page + '&estado=' + estado, {})
+        .then( res => {
+            if( res.data.ok ){ resolve(res)}
+            else { reject(res.data.err)}
+        })
+        .catch( err => {
+            reject( err );
+        });
+    
+    
+    });
+}
+
+export const getTotalVenta = ( ventaCode ) => {
+    return new Promise( (resolve, reject) => {
+    
+        api.get('/ventas/total/' + ventaCode, {})
+        .then( res => {
+            if( res.data.ok ){ resolve(res)}
+            else { reject(res.data.err)}
+        })
+        .catch( err => {
+            reject( err );
+        });
+    
+    
+    });
+}
+
+export const confirmarVenta = ( ventaCode ) => {
+    return new Promise( (resolve, reject) => {
+    
+        api.put('/ventas/confirmar/' + ventaCode, {})
+        .then( res => {
+            if( res.data.ok ){ resolve(res)}
+            else { reject(res.data.err)}
+        })
+        .catch( err => {
+            reject( err );
+        });
+    
+    
+    });
+}
+
+export const finalizarVenta = ( ventaCode ) => {
+    return new Promise( (resolve, reject) => {
+    
+        api.put('/ventas/finalizar/' + ventaCode, {})
+        .then( res => {
+            if( res.data.ok ){ resolve(res)}
+            else { reject(res.data.err)}
+        })
+        .catch( err => {
+            reject( err );
+        });
+    
+    
+    });
+}
+
+export const getDetallesByVenta = ( ventaCode ) => {
+    return new Promise( (resolve, reject) => {
+    
+        api.get('/detalle-venta/loadbyventa/' + ventaCode, {})
+        .then( res => {
+            if( res.data.ok ){ resolve(res)}
+            else { reject(res.data.err)}
+        })
+        .catch( err => {
+            reject( err );
+        });
+    
+    
+    });
+}

@@ -1,16 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import noAvatar from '../../assets/images/no-avatar.png'
 import logo from '../../assets/images/logo-icon.png'
+import firebase from '../../services/firebaseService';
+import 'firebase/auth';
 
 export const Topbar = () => {
 
 
+    const [user, setUser] = useState()
 
-    const handleLogout = () => {
-        console.log('LOGOUT');
+
+    useEffect(() => {
+        setUser( firebase.auth().currentUser )
+        console.log(user);
+    }, [ firebase.auth().currentUser ])
+
+    const handleLogout = async () => {
+        await firebase.auth().signOut();
     }
+
 
 
     return (
@@ -43,8 +53,8 @@ export const Topbar = () => {
                                         <div className="dw-user-box">
                                             <div className="u-img"><img src={ noAvatar }  /></div>
                                             <div className="u-text">
-                                                <h4>Steave Jobs</h4>
-                                                <p className="text-muted">varun@gmail.com</p><Link to="/profile" className="btn btn-rounded btn-danger btn-sm">View Profile</Link></div>
+                                                {/* <h4>Steave Jobs</h4> */}
+                                                <p className="text-muted">{ user?.email }</p><Link to="/profile" className="btn btn-rounded btn-danger btn-sm">View Profile</Link></div>
                                         </div>
                                     </li>
                                     <li role="separator" className="divider"></li>

@@ -2,11 +2,11 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Label } from 'semantic-ui-react'
 import { Dropdown } from 'semantic-ui-react'
-import { openAlert, openModal } from '../../../actions/uiActions'
+import { closeModal, openAlert, openModal } from '../../../actions/uiActions'
 import { GetAllCategoriaSinPaginador } from '../../../services/categoriaService'
 import { getByCategoria, getByCodigo } from '../../../services/productService'
 import { getByCodigo as getSolicitanteByCode } from '../../../services/solicitanteService';
-
+import { createVenta as crearVentaService } from '../../../services/ventaService';
 import './NewVentaScreen.css'
 
 
@@ -26,8 +26,8 @@ export const NewVentaScreen = () => {
     const [categorias, setCategorias] = useState([]);
     const [solicitante, setSolicitante] = useState('');
     const [errorSolicitante, setErrorSolicitante] = useState(false);
-    
-    
+ 
+        
     useEffect(() => {
         GetAllCategoriaSinPaginador()
         .then( res => {
@@ -68,7 +68,7 @@ export const NewVentaScreen = () => {
 
                     const venta = createVenta();
 
-                    dispatch( openModal(<ResumenVentaComponent venta={ venta } />, 'Resumen de venta' ) )
+                    dispatch( openModal(<ResumenVentaComponent venta={ venta } onCancel={ () => dispatch( closeModal() ) } onConfirm={ () =>  crearVenta( venta ) } />, 'Resumen de venta' ) )
 
                 }
             })
@@ -77,6 +77,27 @@ export const NewVentaScreen = () => {
             })
         }
     }
+
+    const crearVenta = async ( venta ) => {
+     
+        crearVentaService(venta)
+        .then( ventaResp => {
+            dispatch( openAlert('success', 'La venta fue creada correctamente, podes verla desde el listado de solicitudes'))
+           
+            setTimeout(() => {
+                window.location = '/solicitudes-venta';
+            }, 3000);
+
+        })
+        .catch( err => {
+            dispatch( openAlert('error', err.message ));
+        })
+        .finally( () => {
+            dispatch( closeModal() );
+        });
+
+    }
+
 
 
     const validator = () => {
@@ -349,26 +370,75 @@ const DetalleVentaItem = ({ prop, index, cantidad, onDelete, cats, setDetalles }
 }
 
 
-const ResumenVentaComponent = ({ venta }) => {
+const ResumenVentaComponent = ({ venta, onCancel, onConfirm }) => {
+
+    const formatter = useMemo(() => new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    }));
+
+    const [solicitante, setSolicitante] = useState({});
+    const [detalles, setDetalles] = useState([]);
+    const [total, setTotal] = useState(0);
+
+    useEffect(() => {
+        getSolicitanteByCode(venta.Solicitante)
+        .then( data => {
+            setSolicitante(data.solicitante);
+        })
+    }, [venta])
+
+
+    useEffect(() => {
+        if( venta.Detalles ) {
+            const detallesArrayTemp = [];
+            venta.Detalles.forEach( async detalle => {
+                const product = await getByCodigo(detalle.producto);
+                detallesArrayTemp.push({
+                    precio: product.precio * Number(detalle.cantidad),
+                    descripcion: product.nombre
+                });
+                setTotal(total => total + product.precio * Number(detalle.cantidad) );
+                setDetalles([...detallesArrayTemp]);
+            });
+        }
+    }, [venta.Detalles])
 
 
     return (
         <>
             <div className="modal-body">    
                 <div className='container'>
-                    <h1>Detalle de venta</h1>
+                    <h3>Solicitante: <label>{ `${solicitante.nombre} ${solicitante.apellido} ` }</label></h3>
+                </div>
+                <hr />
+                <br/>
+
+                <ul class="list-group list-group-flush mb-3">
+
+                    { detalles.map( (detalle, i) => (
+
+                        <li key={ i } class="list-group-item d-flex justify-content-between align-items-center">
+                            { detalle.descripcion }
+                            <span class="badge bg-primary rounded-pill">{ formatter.format(detalle.precio) }</span>
+                        </li>                    
+                    ))}
+                </ul>
+
+
+                <hr/>
+
+
+                <div className='container mt-2 text-right'>
+                    <h3>Total: <label>{ formatter.format(total) }</label></h3>
                 </div>
             </div>
             <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="button" className="btn btn-primary">Confirmar</button>
+                <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={ onCancel }>Cancelar</button>
+                <button type="button" className="btn btn-primary" onClick={ onConfirm }>Confirmar</button>
             </div>
         </>
     )
-
-
-
-
 
 
 }
