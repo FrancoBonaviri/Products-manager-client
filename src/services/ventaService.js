@@ -8,6 +8,7 @@ export const createVenta = async (venta) => {
             solicitante: venta.Solicitante,
             detalles: [ ...venta.Detalles ],
             estado: 'Solicitud',
+            promos: venta.promos
         }
 
         const ventaResp = await crearVenta(ventaReq);

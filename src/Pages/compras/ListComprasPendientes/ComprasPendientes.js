@@ -20,7 +20,7 @@ export const ComprasPendientes = () => {
         getAllPendientes(page)
         .then( data => {
             setCompras([ ...data.compras ])
-            setPagesCant( Math.round( data.cantidad / 20 ) )
+            setPagesCant( Math.ceil( data.cantidad / 20 ) )
         })
         .catch( err => {
             console.log(err)

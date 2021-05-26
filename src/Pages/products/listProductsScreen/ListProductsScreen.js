@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Pagination from '@material-ui/lab/Pagination';
 import { getCantidad, get } from '../../../services/productService';
 import { EmptyState } from '../../../components/empty/EmptyState';
-
+import { NavLink } from 'react-router-dom'
 export const ListProductsScreen = () => {
     
     const [page, setPage] = useState(1)
@@ -13,7 +13,7 @@ export const ListProductsScreen = () => {
 
     useEffect(() => {
         getCantidad().then( cantidad => {
-            setPagesCant( Math.round( cantidad / 20 ) );
+            setPagesCant( Math.ceil( cantidad / 20 )  );
         });
     }, [])
 
@@ -118,7 +118,7 @@ const ListProductItem = ({ product }) => {
     }
 
     const handleDetailClick = () => {
-        console.log('Detalle');
+        console.log( product.codigo );
     }
 
     return (
@@ -129,7 +129,7 @@ const ListProductItem = ({ product }) => {
             <td>${ product.precio || "-" }</td>
             <td>${ product.costo || "-" }</td>
             <td>{ product.stock || "-" }</td>
-            <td><span style={{ cursor: 'pointer' }} onClick={ handleDetailClick } className="badge bg-info">Ir al detalle</span></td>
+            <td><NavLink to={ `/detalle-producto?id=${ product.codigo }` }><span style={{ cursor: 'pointer' }} className="badge bg-info">Ir al detalle</span></NavLink></td>
         </tr>
     );
 

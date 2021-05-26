@@ -17,7 +17,7 @@ export const ListCategoriasScreen = () => {
 
     useEffect(() => {
         getCantidadCategorias().then( res => {
-            setPageCant( Math.round(res.data.cantidad / 20) )
+            setPageCant( Math.ceil(res.data.cantidad / 20) )
         })
     }, [])
 

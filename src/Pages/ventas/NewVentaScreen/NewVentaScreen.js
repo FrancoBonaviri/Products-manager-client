@@ -3,11 +3,13 @@ import { useDispatch } from 'react-redux'
 import { Label } from 'semantic-ui-react'
 import { Dropdown } from 'semantic-ui-react'
 import { closeModal, openAlert, openModal } from '../../../actions/uiActions'
-import { GetAllCategoriaSinPaginador } from '../../../services/categoriaService'
-import { getByCategoria, getByCodigo } from '../../../services/productService'
+import { GetAllCategoriaSinPaginador, getByCodigo as getCategoriaByCodigo } from '../../../services/categoriaService'
+import { getByCategoria, getByCodigo, getProductPriceWithPromo } from '../../../services/productService'
 import { getByCodigo as getSolicitanteByCode } from '../../../services/solicitanteService';
 import { createVenta as crearVentaService } from '../../../services/ventaService';
+
 import './NewVentaScreen.css'
+import { getAllPromos } from '../../../services/promoService'
 
 
 
@@ -18,6 +20,7 @@ const initialStateDetalles = {
     }
 }
 
+
 export const NewVentaScreen = () => {
     
     const dispatch = useDispatch();
@@ -26,8 +29,10 @@ export const NewVentaScreen = () => {
     const [categorias, setCategorias] = useState([]);
     const [solicitante, setSolicitante] = useState('');
     const [errorSolicitante, setErrorSolicitante] = useState(false);
- 
-        
+    const [promos, setPromos] = useState([]);
+    const [page, setPage] = useState(1);
+    const [promosSelected, setPromosSelected] = useState([])
+    
     useEffect(() => {
         GetAllCategoriaSinPaginador()
         .then( res => {
@@ -37,6 +42,14 @@ export const NewVentaScreen = () => {
             dispatch( openAlert('error', 'Error desconocido ' + err) );
         });
     }, [])
+
+
+    useEffect(() => {
+        getAllPromos( page )
+        .then( data => {
+            setPromos( v => [ ...v, ...data.promos])
+        })
+    }, [ page ])
  
     
     const handlerAddDetalle = () => {
@@ -80,13 +93,14 @@ export const NewVentaScreen = () => {
 
     const crearVenta = async ( venta ) => {
      
+        console.log(venta);
         crearVentaService(venta)
         .then( ventaResp => {
             dispatch( openAlert('success', 'La venta fue creada correctamente, podes verla desde el listado de solicitudes'))
            
             setTimeout(() => {
                 window.location = '/solicitudes-venta';
-            }, 3000);
+            }, 2000);
 
         })
         .catch( err => {
@@ -135,7 +149,8 @@ export const NewVentaScreen = () => {
     const createVenta = () => {
         const venta = {
             Solicitante: solicitante,
-            Detalles: []
+            Detalles: [],
+            promos: promosSelected
         }
 
         Object.keys( detalles ).forEach( key => {
@@ -150,9 +165,15 @@ export const NewVentaScreen = () => {
 
         return venta
     }
-
-
  
+
+    const addOrDeletePromo = ( promoCode ) => {
+        if( promosSelected.find(promo => promo == promoCode ) ) {
+            setPromosSelected( promosValues => promosValues.filter( x => x != promoCode ) );
+        } else {
+            setPromosSelected(values => [ ...values, promoCode ])
+        }
+    } 
 
     return (
         <div className="row" style={{ minWidth: '100% ' }}>
@@ -181,6 +202,17 @@ export const NewVentaScreen = () => {
                                         </div>
                                     </div>
                                 </div>
+                                
+                                <h4 className="card-title">Promos</h4>
+                                <table data-toggle="table" className="table-striped no-scrollbar table-select-promo">
+                                    <tbody>
+                                        {
+                                            promos.map( promo => (
+                                                <ListPromoItem key={promo.codigo} promo={ promo } addOrDeletePromo={ addOrDeletePromo }/>
+                                            ))
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -394,11 +426,12 @@ const ResumenVentaComponent = ({ venta, onCancel, onConfirm }) => {
             const detallesArrayTemp = [];
             venta.Detalles.forEach( async detalle => {
                 const product = await getByCodigo(detalle.producto);
+                const { precio } = await getProductPriceWithPromo( detalle.producto, venta.promos )
                 detallesArrayTemp.push({
-                    precio: product.precio * Number(detalle.cantidad),
+                    precio: precio * Number(detalle.cantidad),
                     descripcion: product.nombre
                 });
-                setTotal(total => total + product.precio * Number(detalle.cantidad) );
+                setTotal(total => total + precio * Number(detalle.cantidad) );
                 setDetalles([...detallesArrayTemp]);
             });
         }
@@ -414,13 +447,13 @@ const ResumenVentaComponent = ({ venta, onCancel, onConfirm }) => {
                 <hr />
                 <br/>
 
-                <ul class="list-group list-group-flush mb-3">
+                <ul className="list-group list-group-flush mb-3">
 
                     { detalles.map( (detalle, i) => (
 
-                        <li key={ i } class="list-group-item d-flex justify-content-between align-items-center">
+                        <li key={ i } className="list-group-item d-flex justify-content-between align-items-center">
                             { detalle.descripcion }
-                            <span class="badge bg-primary rounded-pill">{ formatter.format(detalle.precio) }</span>
+                            <span className="badge bg-primary rounded-pill">{ formatter.format(detalle.precio) }</span>
                         </li>                    
                     ))}
                 </ul>
@@ -438,6 +471,44 @@ const ResumenVentaComponent = ({ venta, onCancel, onConfirm }) => {
                 <button type="button" className="btn btn-primary" onClick={ onConfirm }>Confirmar</button>
             </div>
         </>
+    )
+
+
+}
+
+const ListPromoItem = ({ promo, addOrDeletePromo }) => {
+
+    const [actionObjectString, setActionObjectString] = useState('');
+
+    useEffect( () => {
+        if( promo.tipo == 'DeTotalDeVenta' ){
+            setActionObjectString(' total de venta ' );
+        } 
+        else if( promo.tipo == 'DeProducto') {
+            getByCodigo( promo.ObjetoDeAccion )
+            .then( product => {
+                setActionObjectString( product.nombre )
+            })
+        } else if ( promo.tipo == 'DeCategoria' ) {
+            getCategoriaByCodigo( promo.ObjetoDeAccion )
+            .then( res => {
+                setActionObjectString( res.categoria.nombre )
+            })
+        }
+    }, [promo])
+
+
+    return ( 
+        <tr className="tr-class-1" key={ promo.codigo }>
+            <td className="td-class-1 pl-3"> {  promo.porcentaje + '% de descuento en ' + actionObjectString } </td>
+            <td className="td-class-1">
+                <div className="form-check pt-3">
+                    <input className="form-check-input" type="checkbox" onChange={ () => addOrDeletePromo( promo.codigo ) } value="" id={ promo.codigo } />
+                    <label className="form-check-label" htmlFor={ promo.codigo } >
+                    </label>
+                </div>
+            </td>
+        </tr>
     )
 
 

@@ -1,4 +1,4 @@
-import { setBannerCategoria, insertCategoria, getCategorias, getCategoriasSinPaginador } from "./ApiService"
+import { setBannerCategoria, insertCategoria, getCategorias, getCategoriasSinPaginador, getCategoriaByCode } from "./ApiService"
 
 
 export const createCategoria = async(nombre, descripcion, banner) => {
@@ -36,5 +36,19 @@ export const GetAllCategoriaSinPaginador = async() => {
 
     } catch (error) {
         throw error
+    }
+}
+
+export const getByCodigo = async( code ) => {
+    try {
+        
+        const res = await getCategoriaByCode( code );
+
+        console.log(res);
+
+        return res.data;
+
+    } catch (error) {
+        throw error;
     }
 }

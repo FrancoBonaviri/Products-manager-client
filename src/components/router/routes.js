@@ -5,8 +5,11 @@ import { NewCategoriaScreen } from '../../Pages/categorias/newCategoriaScreen/Ne
 import { ListComprasHistoricas } from '../../Pages/compras/ListComprasHistoricas/ListComprasHistoricas'
 import { ComprasPendientes } from '../../Pages/compras/ListComprasPendientes/ComprasPendientes'
 import { NewCompraScreen } from '../../Pages/compras/NewCompraScreen/NewCompraScreen'
+import { DetalleProductoScreen } from '../../Pages/products/DetalleProducto/DetalleProductoScreen'
 import { ListProductsScreen } from '../../Pages/products/listProductsScreen/ListProductsScreen'
 import { NewProductScreen } from '../../Pages/products/newProductScreen/NewProductScreen'
+import { ListPromos } from '../../Pages/promos/ListPromosScreen/ListPromos'
+import { NewPromo } from '../../Pages/promos/NewPromoScreen/NewPromo'
 import { ListSolicitanteScreen } from '../../Pages/solicitantes/ListSolicitanteScreen/ListSolicitanteScreen'
 import { NewSolictanteScreen } from '../../Pages/solicitantes/NewSolicitanteScreen/NewSolictanteScreen'
 import { ListSolicitudesVentas } from '../../Pages/ventas/ListSolicitudesVentas/ListSolicitudesVentas'
@@ -78,6 +81,15 @@ export const Routes = () => {
                 <ListVentasHistoricas />
             </Route>
             
+            <Route path="/new-promo" exact >
+                <NewPromo />
+            </Route>
+            
+            <Route path="/list-promos" exact >
+                <ListPromos />
+            </Route>
+            
+
             <Route path="/profile" exact >
                 <h1>PERFIL</h1>
             </Route>
@@ -85,6 +97,17 @@ export const Routes = () => {
             <Route path="/settings" exact >
                 <h1>Settings</h1>
             </Route>
+
+
+
+
+
+
+
+            <Route path="/detalle-producto">
+                <DetalleProductoScreen />
+            </Route>
+
 
 
         </Switch>

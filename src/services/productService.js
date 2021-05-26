@@ -1,4 +1,4 @@
-import { addImageToProduct, createProduct, getCantidadProductos, getProductByCode, getProducts, getProductsbyCategoria } from "./ApiService";
+import { addImageToProduct, createProduct, getCantidadProductos, getPriceWithPromo, getProductByCode, getProducts, getProductsbyCategoria } from "./ApiService";
 
 export const getByCategoria = async (categoriaCode) => {
 
@@ -95,3 +95,20 @@ export const getByCodigo = async( code ) => {
         throw error
     }
 };
+
+export const getProductPriceWithPromo = async ( productoCode, promos ) => {
+    try {
+
+        const body = { 
+            product: productoCode,
+            promos
+        };
+        
+        const res = await getPriceWithPromo( body );
+        
+        return res.data
+
+    } catch (error) {
+        throw error
+    }
+}

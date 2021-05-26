@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as env from '../enviroment';
 
 
-const { API_URL } = env[process.env.NODE_ENV]
+export const { API_URL } = env[process.env.NODE_ENV]
 
 const api = axios.create({
     baseURL: API_URL
@@ -75,6 +75,21 @@ export const getCantidadCategorias = () => {
     })
 }
 
+export const getCategoriaByCode = ( code ) => {
+    return new Promise( (resolve, reject) => {
+
+        api.get('/categoria/' + code , {})
+        .then( res => {
+            if( res.data.ok ){ resolve(res)}
+            else { reject(res.data.message)}
+        })
+        .catch( err => {
+            reject( err );
+        });
+
+    })
+}
+
 export const getProductsbyCategoria = (categoriaCode) => { 
     return new Promise( (resolve, reject) => {
 
@@ -134,9 +149,10 @@ export const addImageToProduct = ( image, productCode ) => {
         let formData = new FormData();
         formData.append('file', image);
 
+        console.log(formData);
+
         api.post('/producto/addImage/' + productCode, formData, {} )
         .then( res => {
-            console.log(res);
             if( res.data.ok ){ resolve(res)}
             else { reject(res.data.message)}
         })
@@ -394,6 +410,70 @@ export const getDetallesByVenta = ( ventaCode ) => {
     return new Promise( (resolve, reject) => {
     
         api.get('/detalle-venta/loadbyventa/' + ventaCode, {})
+        .then( res => {
+            if( res.data.ok ){ resolve(res)}
+            else { reject(res.data.err)}
+        })
+        .catch( err => {
+            reject( err );
+        });
+    
+    
+    });
+}
+
+export const craetePromo = ( body ) => {
+    return new Promise( (resolve, reject) => {
+    
+        api.post('/promo' , body)
+        .then( res => {
+            if( res.data.ok ){ resolve(res)}
+            else { reject(res.data.err)}
+        })
+        .catch( err => {
+            reject( err );
+        });
+    
+    
+    });
+}
+
+export const getAllPromos = ( page ) => {
+    return new Promise( (resolve, reject) => {
+    
+        api.get('/promo?page=' + page, {})
+        .then( res => {
+            if( res.data.ok ){ resolve(res)}
+            else { reject(res.data.err)}
+        })
+        .catch( err => {
+            reject( err );
+        });
+    
+    
+    });
+}
+
+export const deletePromo = ( code ) => {
+    return new Promise( (resolve, reject) => {
+    
+        api.delete('/promo/' + code, {})
+        .then( res => {
+            if( res.data.ok ){ resolve(res)}
+            else { reject(res.data.err)}
+        })
+        .catch( err => {
+            reject( err );
+        });
+    
+    
+    });
+}
+
+export const getPriceWithPromo = ( body) => {
+    return new Promise( (resolve, reject) => {
+    
+        api.post('/producto/priceWithPromo' , body, {})
         .then( res => {
             if( res.data.ok ){ resolve(res)}
             else { reject(res.data.err)}

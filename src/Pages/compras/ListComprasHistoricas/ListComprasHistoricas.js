@@ -17,7 +17,7 @@ export const ListComprasHistoricas = () => {
         getAllHistoricas(page)
         .then( res => {
             setCompras([ ...res.data.compras ])
-            setPagesCant( Math.round( res.data.cantidad / 20 ) )
+            setPagesCant( Math.ceil( res.data.cantidad / 20 ) )
         })
         .catch( err => {
             console.log(err)

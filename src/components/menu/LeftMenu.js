@@ -41,6 +41,8 @@ const LeftMenu = (props) => {
                 return ( activeMenu === '/new-categoria' || activeMenu === '/list-categoria' )
             case 'Solicitante': 
                 return ( activeMenu === '/new-solicitante' || activeMenu === '/list-solicitante' )
+            case 'Promo': 
+                return ( activeMenu === '/new-promo' || activeMenu === '/list-promos' )
             default:
                 return false;
         }
@@ -107,6 +109,13 @@ const LeftMenu = (props) => {
                             <ul aria-expanded="false" className="collapse">
                                 <li><Link  className={activeMenu === '/new-solicitante' ? 'active' : ''} to="/new-solicitante">Nuevo solicitante</Link></li>
                                 <li><Link  className={activeMenu === '/list-solicitante' ? 'active' : ''} to="/list-solicitante">Listado de solicitantes</Link></li>
+                            </ul>
+                        </li>
+                        <li className={ isInSubMenu('Promo') ? 'active' : '' }> 
+                            <a href="#" className="has-arrow waves-effect waves-dark" aria-expanded="false"><i className="fas fa-tags"></i><span className="hide-menu"> Promos</span></a>
+                            <ul aria-expanded="false" className="collapse">
+                                <li><Link  className={activeMenu === '/new-promo' ? 'active' : ''} to="/new-promo">Nueva promo</Link></li>
+                                <li><Link  className={activeMenu === '/list-promos' ? 'active' : ''} to="/list-promos">Listado de promos</Link></li>
                             </ul>
                         </li>
                     </ul>

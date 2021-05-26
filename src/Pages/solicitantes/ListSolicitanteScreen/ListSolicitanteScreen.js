@@ -20,7 +20,7 @@ export const ListSolicitanteScreen = () => {
     useEffect(() => {
         getAll(page)
         .then( data => {
-            setPageCant( Math.round(data.cantidad / 20) );
+            setPageCant( Math.ceil(data.cantidad / 20) );
             setSolicitantes([...data.solicitantes])
         })
         .catch( err => {

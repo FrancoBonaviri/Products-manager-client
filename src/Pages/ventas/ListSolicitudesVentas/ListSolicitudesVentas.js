@@ -22,7 +22,7 @@ export const ListSolicitudesVentas = () => {
         getAllVentas( page, 'Solicitud' )
         .then( res => {
             setVentas( [ ...res.data.ventas ] )
-            setPagesCant( Math.round( res.data.total / 20 ) )
+            setPagesCant( Math.ceil( res.data.total / 20 ) )
         });
     }, [page, upaterObject])
 
@@ -199,11 +199,11 @@ const ResumenVentaComponent = ({ venta }) => {
             detallesCode.forEach( async detalle => {
                 const product = await getByCodigo(detalle.producto);
                 detallesArrayTemp.push({
-                    precio: product.precio * Number(detalle.cantidad),
+                    precio: detalle.precio * Number(detalle.cantidad),
                     descripcion: product.nombre,
                     cantidad: detalle.cantidad
                 });
-                setTotal(total => total + product.precio * Number(detalle.cantidad) );
+                setTotal(total => total + detalle.precio * Number(detalle.cantidad) );
                 setDetalles([...detallesArrayTemp]);
             });
         }
