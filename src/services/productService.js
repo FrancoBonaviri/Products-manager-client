@@ -1,4 +1,4 @@
-import { addImageToProduct, createProduct, getCantidadProductos, getPriceWithPromo, getProductByCode, getProducts, getProductsbyCategoria } from "./ApiService";
+import { addImageToProduct, API_URL, createProduct, getCantidadProductos, getPriceWithPromo, getProductByCode, getProducts, getProductsbyCategoria, removeImageFromProduct, updateProduct } from "./ApiService";
 
 export const getByCategoria = async (categoriaCode) => {
 
@@ -46,11 +46,69 @@ export const create = async( nombre, descripcion, precio, categoria, costo, imag
 
 }
 
+export const update = async( nombre, descripcion, precio, costo, imagenes, productoAnterior ) => {
+
+    try {
+        
+        const res = await updateProduct( nombre, descripcion, precio, costo, productoAnterior.codigo );
+
+        const productoAnteriorCompleto = await getByCodigo( productoAnterior.codigo );
+
+        updateImagenes(imagenes, productoAnteriorCompleto.imagenes, productoAnteriorCompleto.codigo )
+
+        return res.data;
+
+    } catch (error) {
+        throw error;
+    }
+
+
+}
+
+const updateImagenes = async( imagenesNuevas = [] , imagensAnteriores = [] , productCode ) => {
+
+    // imagenes a eliminar ( son las que quedaron, que vienen solo como una url( string ) )
+
+    const imagesToRemove = imagensAnteriores.filter( img => !imagenesNuevas.find( imgAnt => typeof imgAnt == "string" && imgAnt.includes( img ) ) );
+
+    // las que tenfo que insertar son las que vienen de tipo object ( las que cargo en el formulario )
+    const imagesToAdd = imagenesNuevas.filter( img => typeof img == "object" );
+
+    if( imagesToRemove.length > 0 ){
+        await Promise.all(
+            imagesToRemove.map( async imgToRm => {
+                console.log(imgToRm);
+                await removeImage( productCode, imgToRm );
+            })
+        )
+    }
+
+    if( imagesToAdd?.length > 0 ) {
+        await Promise.all( 
+            imagesToAdd.map( async imgToAdd => {
+                await addImage( productCode, imgToAdd );
+            })
+        )
+    }
+}
+
 export const addImage = async( productCode, img ) => {
     try {
         const res = await addImageToProduct(img, productCode);
 
         return res;
+
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const removeImage = async( productCode, img ) => {
+    try {
+        
+        const res = await removeImageFromProduct( img, productCode )
+
+        return res.data;
 
     } catch (error) {
         throw error;

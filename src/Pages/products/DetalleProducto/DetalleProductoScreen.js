@@ -3,8 +3,8 @@ import { useLocation } from 'react-router-dom';
 import { getByCodigo } from '../../../services/productService';
 import { getByCodigo as getCategoriaByCode } from '../../../services/categoriaService'
 import { API_URL } from '../../../services/ApiService';
-
-
+import { NavLink } from 'react-router-dom';
+import './DetalleProductoScreen.css'
 
 export const DetalleProductoScreen = () => {
     
@@ -35,9 +35,46 @@ export const DetalleProductoScreen = () => {
         }
     }, [product])
 
-    const handleModificar = () => {
-        console.log('MODIFICAR CLICK');
+
+    const nextImage = ( i ) => {
+
+        const images = document.querySelectorAll('.carousel-item');
+        const arrayImages = [];
+        images.forEach( image => arrayImages.push( image ) );
+
+        const imageSelected = arrayImages.find( image => image.classList.contains('active') )
+
+        imageSelected.classList.remove('active');
+        const actualIndex = imageSelected.getAttribute('data-index');
+
+        if( actualIndex == arrayImages.length - 1 ){
+            images[0].classList.add('active')
+        } else {
+            images[ Number(actualIndex) + 1 ].classList.add('active')
+        }
+
+        arrayImages.find(image => image.getAttribute('data-index') )
     }
+
+    const prevImage = ( i ) => {
+        const images = document.querySelectorAll('.carousel-item');
+        const arrayImages = [];
+        images.forEach( image => arrayImages.push( image ) );
+
+        const imageSelected = arrayImages.find( image => image.classList.contains('active') )
+
+        imageSelected.classList.remove('active');
+        const actualIndex = imageSelected.getAttribute('data-index');
+
+        if( actualIndex == 0 ){
+            images[images.length - 1].classList.add('active')
+        } else {
+            images[ Number(actualIndex) - 1 ].classList.add('active')
+        }
+
+        arrayImages.find(image => image.getAttribute('data-index') )
+    }
+
     return (
         <>
         <div className="row" style={{ width: '100%'}} >
@@ -52,31 +89,31 @@ export const DetalleProductoScreen = () => {
                         </div>
                     </div>
                     <div className="card-footer">
-                        <button onClick={ handleModificar } className="btn btn-danger btn-block">
+                        <NavLink to={'/new-product?id=' + product?.codigo } className="btn btn-danger btn-block">
                             Modificar
-                        </button>
+                        </NavLink>
                     </div>
                 </div>
             </div>
 
             <div className="col-md-8 col-sm-12">
-                <div className="carousel-inner" role="listbox">
-                    {
-                        product?.imagenes.map( image => (
-                            <div className="carousel-item active" key={ image }>
-                                <img className="d-block img-fluid" width="100%" height="100%" src={ `${API_URL}/producto/image/${product?.codigo}/${image}`}  alt="First slide" />
-                            </div>
-                        ))
-                    }
+                <div id="carouselExampleControls" className="carousel slide" data-bs-ride="carousel">
+                    <div className="carousel-inner">
+                        {
+                            product?.imagenes.map( (image, i) => (
+                                <div className={ i == 0 ? 'carousel-item active' : 'carousel-item'} key={ image } id={ image } data-index={ i }>
+                                    <img src={ `${API_URL}/producto/image/${product?.codigo}/${image}`} className="d-block w-100" alt="..." />
+                                </div>
+                            ))
+                        }
+                    </div>
+                    <button class="carousel-control-prev no-border no-bg"  onClick={ prevImage }  type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    </button>
+                    <button class="carousel-control-next no-border no-bg" onClick={ nextImage } type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    </button>
                 </div>
-                <a className="carousel-control-prev"  role="button" data-slide="prev">
-                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span className="sr-only">Previous</span>
-                </a>
-                <a className="carousel-control-next"  role="button" data-slide="next">
-                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span className="sr-only">Next</span>
-                </a>
             </div>        
 
         </div>
@@ -92,7 +129,7 @@ export const DetalleProductoScreen = () => {
                         </ul>
                         <div className="tab-content tabcontent-border p-20" id="myTabContent">
                             <div role="tabpanel" className="tab-pane fade show active" id="home5" aria-labelledby="home-tab">
-                                <table class="table">
+                                <table className="table">
                                     <thead>
                                         <tr>
                                             <th>Codigo</th>
@@ -107,12 +144,12 @@ export const DetalleProductoScreen = () => {
                                             <td><a href="javascript:void(0)">{ product?.codigo }</a></td>
                                             <td>{ formatter.format( product?.precio ) }</td>
                                             <td>{ formatter.format( product?.costo ) }</td>
-                                            <td className={ product?.stock < 5 && 'text-danger'  }>{ product?.stock }</td>
+                                            <td className={ product?.stock < 5 ? 'text-danger' : ''  }>{ product?.stock }</td>
                                             <td>
                                                 {
                                                     product?.stock > 0 
-                                                    ? <div class="label label-table label-success">Disponible</div>
-                                                    : <div class="label label-table label-danger">En Falta</div>
+                                                    ? <div className="label label-table label-success">Disponible</div>
+                                                    : <div className="label label-table label-danger">En Falta</div>
                                                 }
                                             </td>
                                         </tr>

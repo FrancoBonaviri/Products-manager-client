@@ -143,13 +143,33 @@ export const createProduct = ( nombre, descripcion, precio, categoria, costo ) =
     });
 }
 
+export const updateProduct = ( nombre, descripcion, precio, costo, codigo ) => {
+    return new Promise( ( resolve, reject ) => {
+
+        const body = {
+            nombre, 
+            descripcion, 
+            precio, 
+            costo
+        }
+
+        api.put(API_URL + '/producto/update/' + codigo, body, {})
+        .then( res => {
+            if( res.data.ok ){ resolve(res)}
+            else { reject(res.data.message)}
+        })
+        .catch( err => {
+            reject( err );
+        })
+
+    });
+}
+
 export const addImageToProduct = ( image, productCode ) => {
     return new Promise( (resolve, reject) => {
 
         let formData = new FormData();
         formData.append('file', image);
-
-        console.log(formData);
 
         api.post('/producto/addImage/' + productCode, formData, {} )
         .then( res => {
@@ -160,7 +180,20 @@ export const addImageToProduct = ( image, productCode ) => {
             reject( err );
         })
 
+    });
+}
 
+export const removeImageFromProduct = ( image, productCode ) => {
+    return new Promise( (resolve, reject) => {
+
+        api.delete('/producto/image/' + productCode +'/'+ image, {} )
+        .then( res => {
+            if( res.data.ok ){ resolve(res)}
+            else { reject(res.data.message)}
+        })
+        .catch( err => {
+            reject( err );
+        })
 
     });
 }
@@ -201,7 +234,7 @@ export const getProductByCode = (code) => {
         api.get('/producto/' + code, {} )
         .then( res => {
             if( res.data.ok ){ resolve(res)}
-            else { reject(res.data.message)}
+            else { reject(res.data.err)}
         })
         .catch( err => {
             reject( err );
