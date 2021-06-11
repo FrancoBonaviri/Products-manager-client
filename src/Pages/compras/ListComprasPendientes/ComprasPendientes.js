@@ -110,7 +110,7 @@ const ListCompraPendienteItem = ({ compra }) => {
         if( compra.producto ){
             getByCodigo( compra.producto )
             .then( res => {
-                setProduct( res.producto );
+                setProduct( res );
             })
             .catch( err => {
                 console.log(err)
