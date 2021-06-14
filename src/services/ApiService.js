@@ -213,15 +213,16 @@ export const getCantidadProductos = () => {
     })
 }
 
-export const getProducts = ( page ) => {
+export const getProducts = ( page, query, dateFrom, dateTo ) => {
     return new Promise( (resolve, reject) => {
         
-        api.get('/producto?page=' + page, {} )
+        api.get('/producto?page=' + page + "&search=" + query + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo , {} )
         .then( res => {
             if( res.data.ok ){ resolve(res)}
-            else { reject(res.data.message)}
+            else { reject(res.data.err)}
         })
         .catch( err => {
+            console.log(err);
             reject( err );
         });
 

@@ -8,24 +8,22 @@ export const ListProductsScreen = () => {
     const [page, setPage] = useState(1)
     const [products, setProducts] = useState([])
     const [pagesCant, setPagesCant] = useState(1);
+    const [inputSearch, setInputSearch] = useState('');
+    const [fechaDesde, setFechaDesde] = useState('');
+    const [fechaHasta, setFechaHasta] = useState('');
 
 
 
     useEffect(() => {
-        getCantidad().then( cantidad => {
-            setPagesCant( Math.ceil( cantidad / 20 )  );
-        });
-    }, [])
-
-    useEffect(() => {
-        get( page )
-        .then( products => {
-            setProducts([...products])
+        get( page, inputSearch, fechaDesde, fechaHasta )
+        .then( resProducts => {
+            setProducts([...resProducts.productos])
+            setPagesCant( Math.ceil( resProducts.total / 20 )  );
         })
         .catch( err => {
             console.log(err);
         });
-    }, [page])
+    }, [page, inputSearch, fechaDesde, fechaHasta ])
 
 
     const handleChange = (e, value) => {
@@ -40,6 +38,26 @@ export const ListProductsScreen = () => {
                     <div className="card">
                         <div className="card-body">
 
+                            <div className="row">
+                                <div className="col-6">
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">
+                                            <i className="fas fa-search"></i>
+                                        </span>
+                                        <input value={ inputSearch } onChange={ ({target}) =>  setInputSearch( target.value ) }  type="text" class="form-control" placeholder="Codigo, Nombre, ..." aria-label="Username" aria-describedby="basic-addon1" />
+                                    </div>
+                                </div>
+                                <div className="col-3">
+                                    <div class="input'roup mb-3">
+                                        <input value={ fechaDesde } onChange={ ({target}) => setFechaDesde( target.value )} type="date" class="form-control" placeholder="Desde"  />
+                                    </div>
+                                </div>
+                                <div className="col-3">
+                                    <div class="input-group mb-3">
+                                        <input value={ fechaHasta } onChange={ ({target}) => setFechaHasta( target.value )} type="date" class="form-control" placeholder="Hasta" />
+                                    </div>
+                                </div>
+                            </div>
                         {
                             products.length > 0 ?
                             <>

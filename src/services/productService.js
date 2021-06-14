@@ -115,13 +115,13 @@ export const removeImage = async( productCode, img ) => {
     }
 }
 
-export const get = async ( page ) => {
+export const get = async ( page, query, dateFrom, dateTo ) => {
 
     try {
         
-        const res = await getProducts( page );
+        const res = await getProducts( page, query, dateFrom, dateTo );
 
-        return res.data.productos
+        return res.data
 
     } catch (error) {
         throw error
