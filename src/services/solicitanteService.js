@@ -29,10 +29,10 @@ export const create = async ( nombre, apellido, email, codArea, telefono, codigo
     }
 }
 
-export const getAll = async( page ) => {
+export const getAll = async( page, inputSearch, fechaDesde, fechaHasta ) => {
     try {
        
-        const res = await getAllSolicitantes(page);
+        const res = await getAllSolicitantes(page, inputSearch, fechaDesde, fechaHasta);
 
         return res.data;
         

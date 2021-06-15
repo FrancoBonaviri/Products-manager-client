@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Pagination from '@material-ui/lab/Pagination';
-import { getCantidad, get } from '../../../services/productService';
+import { get } from '../../../services/productService';
 import { EmptyState } from '../../../components/empty/EmptyState';
 import { NavLink } from 'react-router-dom'
 export const ListProductsScreen = () => {

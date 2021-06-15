@@ -18,10 +18,10 @@ export const createCategoria = async(nombre, descripcion, banner) => {
 
 }
 
-export const getAllcategorias = async (page) => {
+export const getAllcategorias = async (page, search, dateFrom, dateTo ) => {
     try {
-        const res = await getCategorias(page);
-        return res.data.categorias;
+        const res = await getCategorias(page, search, dateFrom, dateTo);
+        return res.data;
 
     } catch (error) {
         throw error

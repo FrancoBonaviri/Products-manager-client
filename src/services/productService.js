@@ -1,4 +1,4 @@
-import { addImageToProduct, API_URL, createProduct, getCantidadProductos, getPriceWithPromo, getProductByCode, getProducts, getProductsbyCategoria, removeImageFromProduct, updateProduct } from "./ApiService";
+import { addImageToProduct, createProduct, getCantidadProductos, getPriceWithPromo, getProductByCode, getProducts, getProductsbyCategoria, removeImageFromProduct, updateProduct } from "./ApiService";
 
 export const getByCategoria = async (categoriaCode) => {
 

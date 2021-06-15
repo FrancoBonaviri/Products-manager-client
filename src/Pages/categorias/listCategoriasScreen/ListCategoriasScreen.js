@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import Pagination from '@material-ui/lab/Pagination';
 import { getAllcategorias } from '../../../services/categoriaService';
-import { getCantidadCategorias } from '../../../services/ApiService';
 import {getCantidadByCategoria} from '../../../services/productService'
 import { EmptyState } from '../../../components/empty/EmptyState';
-
+import moment from 'moment';
 
 export const ListCategoriasScreen = () => {
 
@@ -13,19 +12,18 @@ export const ListCategoriasScreen = () => {
     const [page, setPage] = useState(1)
     const [categorias, setCategorias] = useState([])
     const [pageCant, setPageCant] = useState(1)
-
-
-    useEffect(() => {
-        getCantidadCategorias().then( res => {
-            setPageCant( Math.ceil(res.data.cantidad / 20) )
-        })
-    }, [])
+    const [inputSearch, setInputSearch] = useState('');
+    const [fechaDesde, setFechaDesde] = useState('');
+    const [fechaHasta, setFechaHasta] = useState('');
 
     useEffect(() => {
-        getAllcategorias(page).then( data => {
-            setCategorias([...data])
+        getAllcategorias(page, inputSearch, fechaDesde, fechaHasta).then( data => {
+            setCategorias( [ ...data.categorias ] )
+            setPageCant( Math.ceil(data.total / 20) )
+            console.log(data.categorias);
         })
-    }, [page])
+    }, [page, inputSearch, fechaDesde, fechaHasta])
+
 
 
     const handleChange = (e, value) => {
@@ -42,6 +40,28 @@ export const ListCategoriasScreen = () => {
             <div className="col-12 " >
                 <div className="card">
                     <div className="card-body">
+
+                        <div className="row">
+                            <div className="col-6">
+                                <div className="input-group mb-3">
+                                    <span className="input-group-text" id="basic-addon1">
+                                        <i className="fas fa-search"></i>
+                                    </span>
+                                    <input value={ inputSearch } onChange={ ({target}) =>  setInputSearch( target.value ) }  type="text" className="form-control" placeholder="Codigo, Nombre, ..." aria-label="Username" aria-describedby="basic-addon1" />
+                                </div>
+                            </div>
+                            <div className="col-3">
+                                <div className="input'roup mb-3">
+                                    <input value={ fechaDesde } onChange={ ({target}) => setFechaDesde( target.value )} type="date" className="form-control" placeholder="Desde"  />
+                                </div>
+                            </div>
+                            <div className="col-3">
+                                <div className="input-group mb-3">
+                                    <input value={ fechaHasta } onChange={ ({target}) => setFechaHasta( target.value )} type="date" className="form-control" placeholder="Hasta" />
+                                </div>
+                            </div>
+                        </div>
+                        
                     {
                         categorias.length > 0 ?
                         <>
@@ -53,6 +73,7 @@ export const ListCategoriasScreen = () => {
                                             <th>Codigo</th>
                                             <th>Nombre</th>
                                             <th>Banner</th>
+                                            <th>Fecha de Alta</th>
                                             <th>Productos</th>
                                             <th>Detalle</th>
                                         </tr>
@@ -130,6 +151,7 @@ const ListCategoriaItem = ({categoria}) => {
             <td>{categoria.codigo}   <i onClick={ () => handleCopyCode() } style={{ cursor: 'pointer'}} className="fas fa-copy ml-1"/></td>
             <td>{categoria.nombre}</td>
             <td>{categoria.banner || 'Sin banner'} </td>
+            <td>{ moment( categoria.fechaAlta ).format('DD/MM/YYYY HH:mm')  } </td>
             <td>{ productsCantidad }</td>
             <td><span style={{ cursor: 'pointer' }} onClick={ handleDetailClick } className="badge bg-info">Ir al detalle</span></td>
         </tr>  

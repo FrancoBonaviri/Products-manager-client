@@ -46,10 +46,10 @@ export const setBannerCategoria = (banner, categoriaCode) => {
     });
 }
 
-export const getCategorias = (page) => {
+export const getCategorias = ( page,  query, dateFrom, dateTo ) => {
     return new Promise( (resolve, reject) => {
 
-        api.get('/categoria?page=' + page,{})
+        api.get('/categoria?page=' + page + "&search=" + query + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo,{})
         .then( res => {
             if( res.data.ok ){ resolve(res)}
             else { reject(res.data.message)}
@@ -330,10 +330,10 @@ export const createSolicitante = ( solicitante ) => {
     });  
 }
 
-export const getAllSolicitantes = ( page ) => {
+export const getAllSolicitantes = ( page, inputSearch, fechaDesde, fechaHasta ) => {
     return new Promise( (resolve, reject) => {
 
-        api.get('/solicitante?page=' + page, {})
+        api.get('/solicitante?page=' + page + "&search=" + inputSearch + "&dateFrom=" + fechaDesde + "&dateTo=" + fechaHasta, {})
         .then( res => {
             if( res.data.ok ){ resolve(res)}
             else { reject(res.data.err)}

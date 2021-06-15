@@ -14,11 +14,14 @@ export const ListSolicitanteScreen = () => {
     const [pageCant, setPageCant] = useState(1);
     const [page, setPage] = useState(1);
     const [solicitantes, setSolicitantes] = useState([]);
+    const [inputSearch, setInputSearch] = useState('');
+    const [fechaDesde, setFechaDesde] = useState('');
+    const [fechaHasta, setFechaHasta] = useState('');
 
 
 
     useEffect(() => {
-        getAll(page)
+        getAll(page, inputSearch, fechaDesde, fechaHasta)
         .then( data => {
             setPageCant( Math.ceil(data.cantidad / 20) );
             setSolicitantes([...data.solicitantes])
@@ -26,7 +29,7 @@ export const ListSolicitanteScreen = () => {
         .catch( err => {
             dispatch( openAlert('error', 'Error desconocido ' + err ) );
         });
-    }, []);
+    }, [page, inputSearch, fechaDesde, fechaHasta, dispatch ]);
 
 
     console.log(solicitantes)
@@ -42,6 +45,29 @@ export const ListSolicitanteScreen = () => {
             <div className="col-12 " >
                 <div className="card">
                     <div className="card-body">
+
+                        <div className="row">
+                            <div className="col-6">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i className="fas fa-search"></i>
+                                    </span>
+                                    <input value={ inputSearch } onChange={ ({target}) =>  setInputSearch( target.value ) }  type="text" class="form-control" placeholder="Codigo, Nombre, ..." aria-label="Username" aria-describedby="basic-addon1" />
+                                </div>
+                            </div>
+                            <div className="col-3">
+                                <div class="input'roup mb-3">
+                                    <input value={ fechaDesde } onChange={ ({target}) => setFechaDesde( target.value )} type="date" class="form-control" placeholder="Desde"  />
+                                </div>
+                            </div>
+                            <div className="col-3">
+                                <div class="input-group mb-3">
+                                    <input value={ fechaHasta } onChange={ ({target}) => setFechaHasta( target.value )} type="date" class="form-control" placeholder="Hasta" />
+                                </div>
+                            </div>
+                        </div>
+
+
                     {
                         solicitantes.length > 0 ?
                         <>
