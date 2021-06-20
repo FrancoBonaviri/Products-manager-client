@@ -32,6 +32,7 @@ export const create = async ( nombre, apellido, email, codArea, telefono, codigo
 export const getAll = async( page, inputSearch, fechaDesde, fechaHasta ) => {
     try {
        
+        console.log(page, inputSearch, fechaDesde, fechaHasta);
         const res = await getAllSolicitantes(page, inputSearch, fechaDesde, fechaHasta);
 
         return res.data;

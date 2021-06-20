@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Link, withRouter } from 'react-router-dom';
-
 import noAvatar from '../../assets/images/no-avatar.png'
 import firebase from '../../services/firebaseService'
 import 'firebase/auth';
